@@ -1,6 +1,7 @@
 # Mysql2Agent
 
 Huginn's agent for execute custom query.
+
 Set connection string and write query – selected rows will be emitted as events.
 
 ## Installation

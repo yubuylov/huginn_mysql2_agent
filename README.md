@@ -1,26 +1,45 @@
 # Mysql2Agent
 
-Welcome to your new agent gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/huginn_mysql2_agent`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Huginn's agent for execute custom query.
+Set connection string and write query – selected rows will be emitted as events.
 
 ## Installation
 
-Add this string to your Huginn's .env `ADDITIONAL_GEMS` configuration:
+Add `huginn_mysql2_agent` to your Huginn's `ADDITIONAL_GEMS` configuration:
 
-```ruby
-huginn_mysql2_agent
-# when only using this agent gem it should look like hits:
-ADDITIONAL_GEMS=huginn_mysql2_agent
+Docker installation (https://github.com/cantino/huginn/tree/master/docker):
+```yaml
+# docker env
+environment:
+  ADDITIONAL_GEMS: 'huginn_mysql2_agent(git: https://github.com/yubuylov/huginn_mysql2_agent.git)'
 ```
 
+Local installation (https://github.com/cantino/huginn#local-installation):
+```ruby 
+# .env (Local huginn installation)
+ADDITIONAL_GEMS=huginn_mysql2_agent(github: yubuylov/huginn_mysql2_agent)
+```
 And then execute:
 
     $ bundle
 
 ## Usage
 
-TODO: Write usage instructions here
+1) Set db connections string: 
+`mysql2://user:pass@localhost/database`
+Use raw or from credential `{% credential mysql_connection %}` 
+
+2) Write SQL:
+```sql
+select id, title, age, weight from tbl_girls where age >= 18 order by weight, age limit 2
+```
+Will be emitted events:
+```json
+[
+    {"id":123456762, "title": "Ann", "age": 21, "weight": 45},
+    {"id":123456713, "title": "Julia", "age": 18, "weight": 47}
+]
+```
 
 ## Development
 

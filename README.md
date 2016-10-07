@@ -20,9 +20,6 @@ Local installation (https://github.com/cantino/huginn#local-installation):
 # .env (Local huginn installation)
 ADDITIONAL_GEMS=huginn_mysql2_agent(github: yubuylov/huginn_mysql2_agent)
 ```
-And then execute:
-
-    $ bundle
 
 ## Usage
 

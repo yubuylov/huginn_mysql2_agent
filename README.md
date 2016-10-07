@@ -24,8 +24,11 @@ ADDITIONAL_GEMS=huginn_mysql2_agent(github: yubuylov/huginn_mysql2_agent)
 ## Usage
 
 1) Set db connections string: 
-`mysql2://user:pass@localhost/database`
-Use raw or from credential `{% credential mysql_connection %}` 
+```
+mysql2://user:pass@localhost/database
+```
+
+Use it raw or like credential `{% credential mysql_connection %}` 
 
 2) Write SQL:
 ```sql

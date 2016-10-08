@@ -2,7 +2,7 @@
 
 Huginn's agent for execute custom query.
 
-Set connection string and write query – selected rows will be emitted as events.
+Set connection url and write query – selected rows will be emitted as events.
 
 ## Installation
 
@@ -23,7 +23,7 @@ ADDITIONAL_GEMS=huginn_mysql2_agent(github: yubuylov/huginn_mysql2_agent)
 
 ## Usage
 
-1) Set db connections string: 
+1) Set db connections url: 
 ```
 mysql2://user:pass@localhost/database
 ```

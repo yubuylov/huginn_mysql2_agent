@@ -8,14 +8,14 @@ Set connection url and write query – selected rows will be emitted as events.
 
 Add `huginn_mysql2_agent` to your Huginn's `ADDITIONAL_GEMS` configuration:
 
-Docker installation (https://github.com/cantino/huginn/tree/master/docker):
+[Docker installation](https://github.com/cantino/huginn/tree/master/docker):
 ```yaml
 # docker env
 environment:
   ADDITIONAL_GEMS: 'huginn_mysql2_agent(git: https://github.com/yubuylov/huginn_mysql2_agent.git)'
 ```
 
-Local installation (https://github.com/cantino/huginn#local-installation):
+[Local installation](https://github.com/cantino/huginn#local-installation):
 ```ruby 
 # .env (Local huginn installation)
 ADDITIONAL_GEMS=huginn_mysql2_agent(github: yubuylov/huginn_mysql2_agent)

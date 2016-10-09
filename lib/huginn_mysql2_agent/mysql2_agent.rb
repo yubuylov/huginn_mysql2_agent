@@ -42,17 +42,15 @@ module Agents
     def default_options
       {
           'connection_url' => 'mysql2://user:pass@localhost/database',
-          'sql' => 'select * from table_name order by id desc limit 30',
-          'expected_receive_period_in_days' => '1'
+          'sql' => 'select * from table_name order by id desc limit 30'
       }
     end
 
     form_configurable :connection_url
-    form_configurable :sql, type: :text
-    form_configurable :expected_receive_period_in_days
+    form_configurable :sql, type: :text, ace: {:mode =>'sql', :theme => 'sqlserver'}
 
     def working?
-      last_receive_at && last_receive_at > interpolated['expected_receive_period_in_days'].to_i.days.ago && !recent_error_logs?
+      checked_without_error? && received_event_without_error?
     end
 
     def validate_options
@@ -78,7 +76,7 @@ module Agents
       begin
         conn = Mysql2AgentConnection.establish_connection(connection_url).connection
       rescue => error
-        log("establish_connection err #{error.inspect}")
+        error "Error establish_connection: #{error.inspect}"
         return
       end
 

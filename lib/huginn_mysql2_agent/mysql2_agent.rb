@@ -47,7 +47,7 @@ module Agents
     end
 
     form_configurable :connection_url
-    form_configurable :sql, type: :text, ace: {:mode =>'sql', :theme => 'sqlserver'}
+    form_configurable :sql, type: :text, ace: {:mode =>'mysql', :theme => 'sqlserver'}
 
     def working?
       checked_without_error? && received_event_without_error?

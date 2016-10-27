@@ -46,7 +46,7 @@ module Agents
       {
           'connection_url' => 'mysql2://user:pass@localhost/database',
           'sql' => 'select * from table_name order by id desc limit 30',
-          'merge_event' => 'true',
+          'merge_event' => 'false',
       }
     end
 

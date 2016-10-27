@@ -32,6 +32,9 @@ module Agents
 
             select id, title from mytable where ... order by limit 30
 
+
+        `merge_event` – merge result with incoming event
+
       MD
     end
 
@@ -42,18 +45,25 @@ module Agents
     def default_options
       {
           'connection_url' => 'mysql2://user:pass@localhost/database',
-          'sql' => 'select * from table_name order by id desc limit 30'
+          'sql' => 'select * from table_name order by id desc limit 30',
+          'merge_event' => 'true',
       }
     end
 
     form_configurable :connection_url
-    form_configurable :sql, type: :text, ace: {:mode =>'mysql', :theme => 'sqlserver'}
+    form_configurable :sql, type: :text, ace: {:mode =>'sql', :theme => ''}
+    form_configurable :merge_event, type: :boolean
 
     def working?
-      checked_without_error? && received_event_without_error?
+      checked_without_error?
     end
 
     def validate_options
+
+      if options['merge_event'].present? && !%[true false].include?(options['merge_event'].to_s)
+        errors.add(:base, "Oh no!!! if provided, merge_event must be 'true' or 'false'")
+      end
+
     end
 
     def receive(incoming_events)
@@ -68,7 +78,7 @@ module Agents
 
     private
 
-    def handle(opts, event = nil)
+    def handle(opts, event = Event.new)
 
       connection_url = opts["connection_url"]
       sql = opts["sql"]
@@ -83,6 +93,12 @@ module Agents
       results = conn.exec_query(sql)
       if results.present?
          results.each do |row|
+
+           # merge with incoming event
+           if boolify(interpolated['merge_event']) and event.payload.is_a?(Hash)
+             row = event.payload.deep_merge(row)
+           end
+
            created_event = create_event payload: row
            log("Ran '#{sql}' ", outbound_event: created_event, inbound_event: event)
          end

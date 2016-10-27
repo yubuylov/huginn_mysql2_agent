@@ -55,7 +55,7 @@ module Agents
     form_configurable :merge_event, type: :boolean
 
     def working?
-      checked_without_error?
+      !recent_error_logs?
     end
 
     def validate_options

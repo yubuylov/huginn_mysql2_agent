@@ -68,7 +68,10 @@ module Agents
 
     def receive(incoming_events)
       incoming_events.each do |event|
-        handle(interpolated(event), event)
+
+
+          handle(interpolated(event), event)
+
       end
     end
 
@@ -80,30 +83,29 @@ module Agents
 
     def handle(opts, event = Event.new)
 
+      t1 = Time.now
+
       connection_url = opts["connection_url"]
       sql = opts["sql"]
 
       begin
         conn = Mysql2AgentConnection.establish_connection(connection_url).connection
+
+        results = conn.exec_query(sql)
+        results.each do |row|
+          # merge with incoming event
+          if boolify(interpolated['merge_event']) and event.payload.is_a?(Hash)
+            row = event.payload.deep_merge(row)
+          end
+          create_event payload: row
+        end if results.present?
+        conn.close
+
+        log("Time: #{(Time.now - t1).round(2)}s, results.length: #{results.length}, \n sql: \n #{sql}")
+
       rescue => error
-        error "Error establish_connection: #{error.inspect}"
+        error "Error connection: #{error.inspect}"
         return
-      end
-
-      results = conn.exec_query(sql)
-      if results.present?
-         results.each do |row|
-
-           # merge with incoming event
-           if boolify(interpolated['merge_event']) and event.payload.is_a?(Hash)
-             row = event.payload.deep_merge(row)
-           end
-
-           created_event = create_event payload: row
-           log("Ran '#{sql}' ", outbound_event: created_event, inbound_event: event)
-         end
-      else
-        log("Ran '#{sql}' return nil", inbound_event: event)
       end
 
     end

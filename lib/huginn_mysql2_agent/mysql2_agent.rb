@@ -68,10 +68,7 @@ module Agents
 
     def receive(incoming_events)
       incoming_events.each do |event|
-
-
           handle(interpolated(event), event)
-
       end
     end
 
@@ -84,7 +81,6 @@ module Agents
     def handle(opts, event = Event.new)
 
       t1 = Time.now
-
       connection_url = opts["connection_url"]
       sql = opts["sql"]
 
@@ -101,7 +97,7 @@ module Agents
         end if results.present?
         conn.close
 
-        log("Time: #{(Time.now - t1).round(2)}s, results.length: #{results.length}, \n sql: \n #{sql}")
+        log("Time: #{(Time.now - t1).round(2)}s, results.length: #{results.length if results.present?}, \n sql: \n #{sql}")
 
       rescue => error
         error "Error connection: #{error.inspect}"

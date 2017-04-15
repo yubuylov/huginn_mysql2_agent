@@ -1,8 +1,9 @@
 # Mysql2Agent
 
-Huginn's agent for execute custom query.
+Huginn's agent for execute custom MySQL query.
 
 Set connection url and write query – selected rows will be emitted as events.
+
 
 ## Installation
 
@@ -41,6 +42,8 @@ Will be emitted events:
     {"id":123456713, "title": "Julia", "age": 18, "weight": 47}
 ]
 ```
+
+Please checkout the [Huginn MySQL example Screencast](https://youtu.be/RV5A5awkDHA)!
 
 ## Development
 

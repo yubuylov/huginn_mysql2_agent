@@ -43,6 +43,8 @@ Will be emitted events:
 ]
 ```
 
+Please checkout the [Huginn MySQL example Screencast](https://youtu.be/RV5A5awkDHA)!
+
 ## Development
 
 Running `rake` will clone and set up Huginn in `spec/huginn` to run the specs of the Gem in Huginn as if they would be build-in Agents. The desired Huginn repository and branch can be modified in the `Rakefile`:
